@@ -7,7 +7,7 @@ class Quizzler extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Color(0xff260101),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -41,7 +41,7 @@ class _QuizPageState extends State<QuizPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
-                  color: Colors.white,
+                  color: Color(0xffF2F2F2),
                 ),
               ),
             ),
@@ -49,10 +49,10 @@ class _QuizPageState extends State<QuizPage> {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(15.0),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
+              textColor: Color(0xffF2F2F2),
+              color: Colors.green.shade900,
               child: Text(
                 'True',
                 style: TextStyle(
@@ -68,14 +68,14 @@ class _QuizPageState extends State<QuizPage> {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(15.0),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             child: FlatButton(
-              color: Colors.red,
+              color: Color(0xffA60303),
               child: Text(
                 'False',
                 style: TextStyle(
                   fontSize: 20.0,
-                  color: Colors.white,
+                  color: Color(0xffF2F2F2),
                 ),
               ),
               onPressed: () {
