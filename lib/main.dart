@@ -25,6 +25,19 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper = [
+    Icon(
+      Icons.check,
+      color: Colors.green.shade600,
+    ),
+    Icon(
+      Icons.close,
+      color: Colors.red.shade600,
+    )
+  ];
+
+  List<String> questionText = [""];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,16 +47,27 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           flex: 5,
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
             child: Center(
-              child: Text(
-                'This is where the question text will go.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Color(0xffF2F2F2),
+              child: Container(
+                child: Text(
+                  'Bryan, u4 on BLOCK \n\n -5~-3',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    color: Color(0xffF2F2F2),
+                  ),
                 ),
               ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
+          child: Container(
+            child: Image(
+              image: AssetImage('assets/bryanu4.gif'),
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -61,7 +85,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked true.
+                print('User picked: true');
               },
             ),
           ),
@@ -79,19 +103,15 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked false.
+                print('User picked: false');
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Row(
+          children: scoreKeeper,
+        ),
       ],
     );
   }
 }
-
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/
