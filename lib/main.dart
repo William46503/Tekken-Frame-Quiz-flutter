@@ -7,7 +7,11 @@ class Quizzler extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xff260101),
+        appBar: AppBar(
+          title: Text('Do you Tekken?'),
+          backgroundColor: Colors.red.shade900,
+        ),
+        backgroundColor: Color(0xff341513),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -25,37 +29,63 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scoreKeeper = [
-    Icon(
-      Icons.check,
-      color: Colors.green.shade600,
-    ),
-    Icon(
-      Icons.close,
-      color: Colors.red.shade600,
-    )
+  List<Icon> scoreKeeper = [];
+  int questionNumber = 0;
+  String userAnswer = "";
+
+  Icon rightAnswer() {
+    return Icon(Icons.check, color: Colors.green.shade600);
+  }
+
+  Icon wrongAnswer() {
+    return Icon(Icons.close, color: Colors.red.shade600);
+  }
+
+  List<String> questionText = [
+    "What happens after BLOCK? \n\n Bryan(u4) is \n\n -5 ~ -3",
+    "What happens after BLOCK? \n\n Bryan(qcb3) is \n\n -13 ~ -12",
+    "What happens after On-Hit? \n\n Bryan(qcb3) is \n\n +5 ~ +6 "
   ];
 
-  List<String> questionText = [""];
+  List<String> questionImageName = ['bryanu4', "bryanqcb3", 'bryanqcb3'];
+  List<String> questionAnswer = ["plusFrame", 'WSPunish', "minusFrame"];
+
+  bool checkAnswer(String userAnswer) {
+    if (userAnswer == questionAnswer[questionNumber]) {
+      print('User got it right');
+      scoreKeeper.add(rightAnswer());
+      return true;
+    } else {
+      print("User got it wrong");
+      scoreKeeper.add(wrongAnswer());
+      return false;
+    }
+  }
+
+  int nextQuestion() {
+    setState(() {
+      questionNumber++;
+    });
+    return questionNumber;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Expanded(
-          flex: 5,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
             child: Center(
               child: Container(
                 child: Text(
-                  'Bryan, u4 on BLOCK \n\n -5~-3',
+                  questionText[questionNumber],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 25.0,
-                    color: Color(0xffF2F2F2),
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -63,50 +93,163 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
+          padding: const EdgeInsets.fromLTRB(0, 0, 5, 10),
           child: Container(
             child: Image(
-              image: AssetImage('assets/bryanu4.gif'),
+              image:
+                  AssetImage('assets/${questionImageName[questionNumber]}.gif'),
               fit: BoxFit.cover,
             ),
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            child: FlatButton(
-              textColor: Color(0xffF2F2F2),
-              color: Colors.green.shade900,
-              child: Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      child: FlatButton(
+                        height: 45,
+                        textColor: Color(0xffF2F2F2),
+                        color: Colors.red.shade800,
+                        child: Text(
+                          'Slightly  - frame',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        onPressed: () {
+                          print('User picked: minusframe');
+                          userAnswer = 'minusFrame';
+                          checkAnswer(userAnswer);
+                          nextQuestion();
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: FlatButton(
+                        height: 45,
+                        textColor: Color(0xffF2F2F2),
+                        color: Colors.green.shade900,
+                        child: Text(
+                          'Slightly  + frame',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        onPressed: () {
+                          print('User picked: plusframe');
+                          userAnswer = 'plusFrame';
+                          checkAnswer(userAnswer);
+                          nextQuestion();
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        child: FlatButton(
+                          height: 45,
+                          textColor: Color(0xff2e7d32),
+                          color: Color(0xffdd2c00),
+                          child: Text(
+                            'Jab Punish',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          onPressed: () {
+                            print('User picked: jabpunish');
+                            userAnswer = 'jabPunish';
+                            checkAnswer(userAnswer);
+                            nextQuestion();
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: FlatButton(
+                          height: 45,
+                          textColor: Color(0xffF2F2F2),
+                          color: Color(0xff1565c0),
+                          child: Text(
+                            'Launch',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          onPressed: () {
+                            print('User picked: launch');
+                            userAnswer = 'launchPunish';
+                            checkAnswer(userAnswer);
+                            nextQuestion();
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: FlatButton(
+                          height: 45,
+                          textColor: Color(0xffF2F2F2),
+                          color: Color(0xffff3d00),
+                          child: Text(
+                            'WS Punish',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          onPressed: () {
+                            print('User picked: wspunish');
+                            userAnswer = 'WSPunish';
+                            checkAnswer(userAnswer);
+                            nextQuestion();
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              onPressed: () {
-                print('User picked: true');
-              },
-            ),
+            ],
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            child: FlatButton(
-              color: Color(0xffA60303),
-              child: Text(
-                'False',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Color(0xffF2F2F2),
-                ),
-              ),
-              onPressed: () {
-                print('User picked: false');
-              },
-            ),
-          ),
+        Divider(
+          thickness: 2,
+          color: Colors.white38,
+          indent: 50,
+          endIndent: 50,
         ),
         Row(
           children: scoreKeeper,
