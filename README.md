@@ -1,7 +1,7 @@
 
 # Tekken Training Quiz App (heavily modified/customized from Quizzler)
 
- A quiz app that tests your udnerstanding and decision-making ability against most common moves in Tekken 7. 
+ A quiz app that tests your understanding and decision-making ability against most common moves in Tekken 7. 
  
 - Modularising your code into separate classes.
 - Dart classes and objects.
