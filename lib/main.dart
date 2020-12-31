@@ -1,4 +1,8 @@
+// ignore: avoid_web_libraries_in_flutter
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'question.dart';
 
 void main() => runApp(Quizzler());
 
@@ -41,17 +45,34 @@ class _QuizPageState extends State<QuizPage> {
     return Icon(Icons.close, color: Colors.red.shade600);
   }
 
-  List<String> questionText = [
-    "What happens after BLOCK? \n\n Bryan(u4) is \n\n -5 ~ -3",
-    "What happens after BLOCK? \n\n Bryan(qcb3) is \n\n -13 ~ -12",
-    "What happens after On-Hit? \n\n Bryan(qcb3) is \n\n +5 ~ +6 "
+  //Original lists of data before creating the class--------------------
+  // List<String> questionText = [
+  //   "What happens after BLOCK? \n\n Bryan(u4) is \n\n -5 ~ -3",
+  //   "What happens after BLOCK? \n\n Bryan(qcb3) is \n\n -13 ~ -12",
+  //   "What happens after On-Hit? \n\n Bryan(qcb3) is \n\n +5 ~ +6 "
+  // ];
+  //
+  // List<String> questionImageName = ['bryanu4', "bryanqcb3", 'bryanqcb3'];
+  //
+  // List<String> questionAnswer = ["plusFrame", 'WSPunish', "minusFrame"];
+
+  List<Question> questionDB = [
+    Question(
+        q: "What happens after BLOCK? \n\n Bryan(u4) is \n\n -5 ~ -3",
+        a: "plusFrame",
+        picname: 'bryanu4'),
+    Question(
+        q: "What happens after BLOCK? \n\n Bryan(qcb3) is \n\n -13 ~ -12",
+        a: 'WSPunish',
+        picname: "bryanqcb3"),
+    Question(
+        q: "What happens after On-Hit? \n\n Bryan(qcb3) is \n\n +5 ~ +6",
+        a: 'minusFrame',
+        picname: "bryanqcb3")
   ];
 
-  List<String> questionImageName = ['bryanu4', "bryanqcb3", 'bryanqcb3'];
-  List<String> questionAnswer = ["plusFrame", 'WSPunish', "minusFrame"];
-
   bool checkAnswer(String userAnswer) {
-    if (userAnswer == questionAnswer[questionNumber]) {
+    if (userAnswer == questionDB[questionNumber].questionAnswer) {
       print('User got it right');
       scoreKeeper.add(rightAnswer());
       return true;
@@ -81,7 +102,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Center(
               child: Container(
                 child: Text(
-                  questionText[questionNumber],
+                  questionDB[questionNumber].questionText,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 25.0,
@@ -96,8 +117,8 @@ class _QuizPageState extends State<QuizPage> {
           padding: const EdgeInsets.fromLTRB(0, 0, 5, 10),
           child: Container(
             child: Image(
-              image:
-                  AssetImage('assets/${questionImageName[questionNumber]}.gif'),
+              image: AssetImage(
+                  'assets/${questionDB[questionNumber].questionImageName}.gif'),
               fit: BoxFit.cover,
             ),
           ),
