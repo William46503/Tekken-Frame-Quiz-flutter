@@ -2,7 +2,7 @@
 // import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'question.dart';
+import 'questionBank.dart';
 
 void main() => runApp(Quizzler());
 
@@ -56,23 +56,8 @@ class _QuizPageState extends State<QuizPage> {
   //
   // List<String> questionAnswer = ["plusFrame", 'WSPunish', "minusFrame"];
 
-  List<Question> questionDB = [
-    Question(
-        q: "What happens after BLOCK? \n\n Bryan(u4) is \n\n -5 ~ -3",
-        a: "plusFrame",
-        picname: 'bryanu4'),
-    Question(
-        q: "What happens after BLOCK? \n\n Bryan(qcb3) is \n\n -13 ~ -12",
-        a: 'WSPunish',
-        picname: "bryanqcb3"),
-    Question(
-        q: "What happens after On-Hit? \n\n Bryan(qcb3) is \n\n +5 ~ +6",
-        a: 'minusFrame',
-        picname: "bryanqcb3")
-  ];
-
   bool checkAnswer(String userAnswer) {
-    if (userAnswer == questionDB[questionNumber].questionAnswer) {
+    if (userAnswer == QuestionBank().getQuestionAnswer()) {
       print('User got it right');
       scoreKeeper.add(rightAnswer());
       return true;
@@ -81,13 +66,6 @@ class _QuizPageState extends State<QuizPage> {
       scoreKeeper.add(wrongAnswer());
       return false;
     }
-  }
-
-  int nextQuestion() {
-    setState(() {
-      questionNumber++;
-    });
-    return questionNumber;
   }
 
   @override
@@ -102,7 +80,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Center(
               child: Container(
                 child: Text(
-                  questionDB[questionNumber].questionText,
+                  QuestionBank().getQuestionText(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 25.0,
@@ -118,7 +96,7 @@ class _QuizPageState extends State<QuizPage> {
           child: Container(
             child: Image(
               image: AssetImage(
-                  'assets/${questionDB[questionNumber].questionImageName}.gif'),
+                  'assets/${QuestionBank().getQuestionImageName()}.gif'),
               fit: BoxFit.cover,
             ),
           ),
@@ -148,7 +126,7 @@ class _QuizPageState extends State<QuizPage> {
                           print('User picked: minusframe');
                           userAnswer = 'minusFrame';
                           checkAnswer(userAnswer);
-                          nextQuestion();
+                          QuestionBank().nextQuestion();
                         },
                       ),
                     ),
@@ -174,7 +152,7 @@ class _QuizPageState extends State<QuizPage> {
                           print('User picked: plusframe');
                           userAnswer = 'plusFrame';
                           checkAnswer(userAnswer);
-                          nextQuestion();
+                          QuestionBank().nextQuestion();
                         },
                       ),
                     ),
@@ -204,7 +182,7 @@ class _QuizPageState extends State<QuizPage> {
                             print('User picked: jabpunish');
                             userAnswer = 'jabPunish';
                             checkAnswer(userAnswer);
-                            nextQuestion();
+                            QuestionBank().nextQuestion();
                           },
                         ),
                       ),
@@ -229,7 +207,7 @@ class _QuizPageState extends State<QuizPage> {
                             print('User picked: launch');
                             userAnswer = 'launchPunish';
                             checkAnswer(userAnswer);
-                            nextQuestion();
+                            QuestionBank().nextQuestion();
                           },
                         ),
                       ),
@@ -255,7 +233,7 @@ class _QuizPageState extends State<QuizPage> {
                             print('User picked: wspunish');
                             userAnswer = 'WSPunish';
                             checkAnswer(userAnswer);
-                            nextQuestion();
+                            QuestionBank().nextQuestion();
                           },
                         ),
                       ),
