@@ -3,6 +3,8 @@
 
  A quiz app that tests your understanding and decision-making ability against most common moves in Tekken 7. 
  
+ ![](demogif.gif)
+ 
 - Modularising your code into separate classes.
 - Dart classes and objects.
 - Using class constructors.
