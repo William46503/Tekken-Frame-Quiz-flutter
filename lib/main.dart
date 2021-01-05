@@ -3,6 +3,9 @@
 
 import 'package:flutter/material.dart';
 import 'questionBank.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+QuestionBank questionBank = QuestionBank();
 
 void main() => runApp(Quizzler());
 
@@ -34,38 +37,46 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
-  int questionNumber = 0;
   String userAnswer = "";
+  int correctScore = 0;
 
-  Icon rightAnswer() {
-    return Icon(Icons.check, color: Colors.green.shade600);
-  }
-
-  Icon wrongAnswer() {
-    return Icon(Icons.close, color: Colors.red.shade600);
-  }
-
-  //Original lists of data before creating the class--------------------
-  // List<String> questionText = [
-  //   "What happens after BLOCK? \n\n Bryan(u4) is \n\n -5 ~ -3",
-  //   "What happens after BLOCK? \n\n Bryan(qcb3) is \n\n -13 ~ -12",
-  //   "What happens after On-Hit? \n\n Bryan(qcb3) is \n\n +5 ~ +6 "
-  // ];
-  //
-  // List<String> questionImageName = ['bryanu4', "bryanqcb3", 'bryanqcb3'];
-  //
-  // List<String> questionAnswer = ["plusFrame", 'WSPunish', "minusFrame"];
-
-  bool checkAnswer(String userAnswer) {
-    if (userAnswer == QuestionBank().getQuestionAnswer()) {
-      print('User got it right');
-      scoreKeeper.add(rightAnswer());
-      return true;
-    } else {
-      print("User got it wrong");
-      scoreKeeper.add(wrongAnswer());
-      return false;
+  void checkAnswer(String userAnswer) {
+    Icon rightAnswer() {
+      return Icon(Icons.check, color: Colors.green.shade600);
     }
+
+    Icon wrongAnswer() {
+      return Icon(Icons.close, color: Colors.red.shade600);
+    }
+
+    void activeCheckFinish() {
+      if (questionBank.checkFinish() == true) {
+        Alert(
+          context: context,
+          title: "Quiz Completed!",
+          desc: "Your score is: ${correctScore}/${scoreKeeper.length}.",
+        ).show();
+        questionBank.reset();
+        scoreKeeper = [];
+        correctScore = 0;
+      }
+    }
+
+    setState(() {
+      if (userAnswer == questionBank.getQuestionAnswer()) {
+        print('User got it right');
+        scoreKeeper.add(rightAnswer());
+        correctScore++;
+        print(correctScore);
+        questionBank.nextQuestion();
+        activeCheckFinish();
+      } else {
+        print("User got it wrong");
+        scoreKeeper.add(wrongAnswer());
+        questionBank.nextQuestion();
+        activeCheckFinish();
+      }
+    });
   }
 
   @override
@@ -80,7 +91,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Center(
               child: Container(
                 child: Text(
-                  QuestionBank().getQuestionText(),
+                  questionBank.getQuestionText(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 25.0,
@@ -96,7 +107,7 @@ class _QuizPageState extends State<QuizPage> {
           child: Container(
             child: Image(
               image: AssetImage(
-                  'assets/${QuestionBank().getQuestionImageName()}.gif'),
+                  'assets/${questionBank.getQuestionImageName()}.gif'),
               fit: BoxFit.cover,
             ),
           ),
@@ -126,7 +137,6 @@ class _QuizPageState extends State<QuizPage> {
                           print('User picked: minusframe');
                           userAnswer = 'minusFrame';
                           checkAnswer(userAnswer);
-                          QuestionBank().nextQuestion();
                         },
                       ),
                     ),
@@ -152,7 +162,6 @@ class _QuizPageState extends State<QuizPage> {
                           print('User picked: plusframe');
                           userAnswer = 'plusFrame';
                           checkAnswer(userAnswer);
-                          QuestionBank().nextQuestion();
                         },
                       ),
                     ),
@@ -182,7 +191,6 @@ class _QuizPageState extends State<QuizPage> {
                             print('User picked: jabpunish');
                             userAnswer = 'jabPunish';
                             checkAnswer(userAnswer);
-                            QuestionBank().nextQuestion();
                           },
                         ),
                       ),
@@ -207,7 +215,6 @@ class _QuizPageState extends State<QuizPage> {
                             print('User picked: launch');
                             userAnswer = 'launchPunish';
                             checkAnswer(userAnswer);
-                            QuestionBank().nextQuestion();
                           },
                         ),
                       ),
@@ -233,7 +240,6 @@ class _QuizPageState extends State<QuizPage> {
                             print('User picked: wspunish');
                             userAnswer = 'WSPunish';
                             checkAnswer(userAnswer);
-                            QuestionBank().nextQuestion();
                           },
                         ),
                       ),
